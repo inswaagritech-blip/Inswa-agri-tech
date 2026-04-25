@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pilot View - INSWA GLOBAL</title>
+<style>
+:root {--green:#10b981;--blue:#3b82f6;--bg:#0f172a;--card:#1e293b;--text:#e2e8f0;--muted:#64748b}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);font-family:system-ui,sans-serif;color:var(--text)}
+.header{background:#1e293b;padding:12px 16px;font-size:14px}
+.header a{color:var(--green);text-decoration:none}
+.container{padding:16px;max-width:500px;margin:0 auto}
+.btn{width:100%;padding:14px;border:none;border-radius:8px;font-weight:700;font-size:15px;margin-bottom:12px;cursor:pointer}
+.btn-green{background:var(--green);color:#000}
+.btn-blue{background:var(--blue);color:#fff}
+.scan-card{background:var(--card);border-radius:12px;padding:16px;margin:16px 0}
+.scan-card h3{font-size:14px;color:var(--muted);margin-bottom:8px}
+.scan-card .val{font-size:13px;margin:6px 0}
+.pest-box{background:#0f172a;padding:12px;border-radius:8px;margin:12px 0}
+.sms-box{background:#000;padding:12px;border-radius:8px;font-family:monospace;font-size:12px;white-space:pre-line}
+</style>
+</head>
+<body>
+<div class="header">
+Pilot: Ollen M. | Bal: K120
+<span style="float:right"><a href="/menu">Menu</a> | <a href="/logout">Logout</a></span>
+</div>
+<div class="container">
+<button class="btn btn-green">AUTO-DETECT CROP + ALL PESTS</button>
+<button class="btn btn-blue">SWARM: 3 DRONES 15HA</button>
+<div class="scan-card">
+<h3>SCAN: INS009 | CROP: Cassava</h3>
+<div class="val">Loss: K238 | Carbon: 0.2t CO2 | Soil: MediumN, pH6.2</div>
+<h3 style="margin-top:16px">PESTS/DISEASES DETECTED:</h3>
+<div class="pest-box">
+Cassava Green Mite: 19% - Abamectin 1.8% EC @ 0.5ml/L
+</div>
+<h3 style="margin-top:16px">SMS SENT:</h3>
+<div class="sms-box">Inswa: Cassava - Block C - 5ha
+Cassava Green Mite: 19% - Low spot
+Treat: Abamectin 1.8% EC @ 0.5ml/L
+Est. Loss: K238. Soil N=Medium.
+Call 8000. ID:INS009</div>
+<div class="val" style="margin-top:12px">GOVT ALERTS: 1 | Neighbours: 4</div>
+</div>
+<button class="btn btn-green">PRINT FULL PEST REPORT</button>
+<button class="btn btn-green">NEW SCAN</button>
+</div>
+</body>
+</html>
