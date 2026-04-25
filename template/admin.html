@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard - INSWA GLOBAL</title>
+<style>
+:root {--green:#10b981;--bg:#f1f5f9;--card:#fff;--text:#0f172a;--muted:#64748b;--blue:#3b82f6;--red:#ef4444;--orange:#f97316;--purple:#8b5cf6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);font-family:system-ui,sans-serif;color:var(--text)}
+.header{background:var(--green);color:#fff;padding:12px 16px;font-size:14px;font-weight:600}
+.header a{color:#fff;text-decoration:none;margin-left:12px}
+.container{padding:16px;max-width:800px;margin:0 auto}
+.section{background:var(--card);border-radius:12px;padding:16px;margin-bottom:16px}
+.section h2{font-size:18px;margin-bottom:12px}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.kpi{background:#dcfce7;padding:12px;border-radius:8px;text-align:center}
+.kpi .val{font-size:18px;font-weight:700;color:var(--text)}
+.kpi .label{font-size:12px;color:var(--muted);margin-top:2px}
+.kpi-full{grid-column:1/-1}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+.filter{padding:6px 12px;border:none;border-radius:6px;font-weight:600;font-size:13px;cursor:pointer;background:var(--blue);color:#fff}
+.filter.active{background:var(--green)}
+table{width:100%;font-size:12px;border-collapse:collapse;margin-top:12px}
+th{text-align:left;padding:8px 4px;color:var(--muted);font-weight:600;border-bottom:1px solid #e2e8f0}
+td{padding:8px 4px;border-bottom:1px solid #f1f5f9}
+.btn{padding:4px 8px;border:none;border-radius:4px;font-size:11px;font-weight:600;margin:1px;cursor:pointer;color:#fff}
+.btn-green{background:var(--green)} .btn-blue{background:var(--blue)} .btn-purple{background:var(--purple)} .btn-orange{background:var(--orange)}
+</style>
+</head>
+<body>
+<div class="header">
+INSWA GLOBAL: ALL CROPS 
+<span style="float:right"><a href="/menu">Menu</a> | <a href="/logout">Logout</a></span>
+</div>
+<div class="container">
+<div class="section">
+<h2>Global Impact KPIs</h2>
+<div class="kpi-grid" id="kpiGrid">
+<div class="kpi"><div class="val" id="kpiValue">-</div><div class="label">Value Saved</div></div>
+<div class="kpi"><div class="val" id="kpiCO2">-</div><div class="label">CO2 Credits</div></div>
+<div class="kpi"><div class="val" id="kpiHa">-</div><div class="label">Scanned</div></div>
+<div class="kpi"><div class="val" id="kpiCrops">-</div><div class="label">Crop Types</div></div>
+<div class="kpi kpi-full"><div class="val" id="kpiAlerts">-</div><div class="label">Govt Alerts</div></div>
+</div>
+<div class="section">
+<h2>Live Field Intelligence - Filter: <span id="activeFilter">ALL</span></h2>
+<div class="filters">
+<button class="filter active" onclick="filterCrop('ALL')">ALL</button>
+<button class="filter" onclick="filterCrop('MAIZE')">MAIZE</button>
+<button class="filter" onclick="filterCrop('CASSAVA')">CASSAVA</button>
+<button class="filter" onclick="filterCrop('RICE')">RICE</button>
+</div>
+</div>
+<div class="section">
+<h2>Global Scan Registry - All Crops Auto-Detected</h2>
+<table>
+<thead><tr><th>ID</th><th>Farmer + Crop</th><th>Pests + Treatments</th><th>Actions</th></tr></thead>
+<tbody id="scanTable"></tbody>
+</table>
+</div>
+</div>
+<script>
+async function loadKPIs() {
+const r = await fetch('/api/kpis');
+const k = await r.json();
+document.getElementById('kpiValue').textContent = `K${k.value_saved}`;
+document.getElementById('kpiCO2').textContent = `${k.co2_credits}t`;
+document.getElementById('kpiHa').textContent = `${k.ha_scanned}ha`;
+document.getElementById('kpiCrops').textContent = k.crop_types;
+document.getElementById('kpiAlerts').textContent = k.govt_alerts;
+}
+async function loadScans(crop='ALL') {
+const r = await fetch(`/api/scans?crop=${crop}`);
+const scans = await r.json();
+document.getElementById('scanTable').innerHTML = scans.map(s=>`
+<tr>
+<td>${s.id}</td>
+<td>${s.farmer}<br><span style="color:var(--muted)">${s.crop}</span></td>
+<td>${s.pest}<br><strong>Loss: K${s.loss}</strong></td>
+<td>
+<button class="btn btn-green">Print</button>
+<button class="btn btn-blue">Credit</button>
+${s.loss > 500 ? '<button class="btn btn-orange">Claim</button>' : ''}
+</td>
+</tr>
+`).join('');
+document.getElementById('activeFilter').textContent = crop;
+}
+function filterCrop(crop) {
+document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));
+event.target.classList.add('active');
+loadScans(crop);
+}
+loadKPIs();
+loadScans();
+setInterval(()=>{loadKPIs();loadScans(document.getElementById('activeFilter').textContent)}, 10000);
+</script>
+</body>
+</html>
