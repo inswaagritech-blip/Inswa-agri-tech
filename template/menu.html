@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INSWA GLOBAL</title>
+<style>
+:root {--green:#10b981;--bg:#f1f5f9;--card:#fff;--text:#0f172a;--muted:#64748b}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);font-family:system-ui,sans-serif;color:var(--text)}
+.header{background:var(--green);color:#fff;padding:16px;text-align:center}
+.header h1{font-size:22px;font-weight:700}
+.header p{font-size:13px;opacity:0.9;margin-top:4px}
+.container{padding:16px;max-width:500px;margin:0 auto}
+.card{background:var(--card);border-radius:12px;padding:20px;margin-bottom:12px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.1);cursor:pointer}
+.card:hover{transform:translateY(-2px)}
+.card h3{color:var(--green);font-size:16px;margin-bottom:4px}
+.card p{color:var(--muted);font-size:13px}
+a{text-decoration:none}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>INSWA GLOBAL</h1>
+<p>AI Crop Intelligence — Maize, Cassava, Soybean,<br>Tomato, Rice, Cotton</p>
+</div>
+<div class="container">
+<a href="/admin"><div class="card">
+<div style="font-size:32px">🖥️</div>
+<h3>Admin Dashboard</h3>
+<p>KPIs, scans, maps</p>
+</div></a>
+<a href="/pilot"><div class="card">
+<div style="font-size:32px">🚁</div>
+<h3>Pilot View</h3>
+<p>Scan fields & swarm</p>
+</div></a>
+<a href="/market"><div class="card">
+<div style="font-size:32px">📈</div>
+<h3>Market Prices</h3>
+<p>Farmgate & wholesale</p>
+</div></a>
+</div>
+<div style="position:fixed;bottom:0;left:0;right:0;background:#fff;padding:10px;text-align:center;border-top:1px solid #e2e8f0">
+<a href="/logout" style="color:#ef4444;font-size:14px;text-decoration:none">Logout</a>
+</div>
+</body>
+</html>
