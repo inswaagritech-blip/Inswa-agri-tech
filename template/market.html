@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Prices - INSWA GLOBAL</title>
+<style>
+:root {--green:#10b981;--bg:#f1f5f9;--card:#fff;--text:#0f172a;--muted:#64748b;--red:#ef4444}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);font-family:system-ui,sans-serif;color:var(--text)}
+.header{background:var(--green);color:#fff;padding:12px 16px;font-size:14px;font-weight:600}
+.container{padding:16px;max-width:800px;margin:0 auto}
+.section{background:var(--card);border-radius:12px;padding:16px;margin-bottom:16px}
+.section h2{font-size:18px;margin-bottom:12px}
+table{width:100%;font-size:13px;border-collapse:collapse}
+th{text-align:left;padding:8px 4px;color:var(--muted);font-weight:600;border-bottom:1px solid #e2e8f0}
+td{padding:10px 4px;border-bottom:1px solid #f1f5f9}
+.green{color:var(--green);font-weight:600}
+.red{color:var(--red);font-weight:600}
+.note{font-size:12px;color:var(--muted);margin-top:12px}
+</style>
+</head>
+<body>
+<div class="header">
+INSWA GLOBAL: ALL CROPS
+<span style="float:right"><a href="/menu" style="color:#fff">Menu</a> | <a href="/logout" style="color:#fff">Logout</a></span>
+</div>
+<div class="container">
+<div class="section">
+<h2>Your Harvest Value Estimates</h2>
+<table>
+<thead>
+<tr><th>Farmer</th><th>Crop</th><th>Yield (est.)</th><th>Market Value</th><th>After Loss</th></tr>
+</thead>
+<tbody id="harvestTable"></tbody>
+</table>
+<p class="note">Prices are indicative. Actual prices vary by region and season.</p>
+</div>
+<script>
+async function loadHarvest() {
+const r = await fetch('/api/harvest');
+const data = await r.json();
+document.getElementById('harvestTable').innerHTML = data.map(h=>`
+<tr>
+<td>${h.farmer}</td>
+<td>${h.crop}</td>
+<td>${h.yield} bags</td>
+<td class="green">K${h.value}</td>
+<td class="${h.after_loss < h.value ? 'red' : 'green'}">K${h.after_loss}</td>
+</tr>
+`).join('');
+}
+loadHarvest();
+setInterval(loadHarvest, 10000);
+</script>
+</body>
+</html>
